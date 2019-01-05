@@ -1,0 +1,13 @@
+,Dia,Hora,Temperatura ambiente,Humedad relativa,Velocidad del viento,Presion atmosferica,Estacion,Clima
+0,1,06:00,13.6,80.41,8,1013,Verano,Soleado
+1,1,12:00,24.3,79.31,11,1015,Verano,Soleado
+2,1,18:00,26.9,81.11,13,1018,Verano,Soleado
+3,1,24:00,19.7,80.7,12,1017,Verano,Soleado
+4,2,06:00,14.7,79.32,10,1010,Verano,Soleado
+5,2,12:00,21.7,80.72,12,1014,Verano,Soleado
+6,2,18:00,29.2,80.22,12,1015,Verano,Soleado
+7,2,24:00,20.3,79.3,11,1015,Verano,Soleado
+8,3,06:00,16.1,80.73,9,1011,,
+9,3,12:00,26.3,79.33,13,1016,,
+10,3,18:00,30.7,80.73,13,1016,,
+11,3,24:00,18.1,81.1,10,1014,,
