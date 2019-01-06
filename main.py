@@ -8,32 +8,8 @@ dirTemperatura = 'temperatura_ambiente.txt' # Nombre del archivo donde se guarda
 dirPresion = 'presion_atmosferica.txt' # Nombre del archivo donde se guardan las presiones atmosféricas
 dirViento = 'velocidad_viento.txt' # Nombre del archivo donde se guardan las velocidades del viento
 dirHumedad = 'humedad_relativa.txt' # Nombre del archivo donde se guardan las humedades relativas
-ejecutar = True
 
 # DEFINICIÓN_DE_FUNCIONES
-
-# Ejecuta el menú para que el usuario pueda interactuar con el programa
-# Entrada: No hay entrada
-# Salida: No hay salida
-def menu():
-    o = -1
-    while (o != 0 and o != 1 and o != 2 and o != 3):
-        print("\n\nMENÚ\n")
-        print("\n1.- Procesar variables")
-        print("\n2.- Simular y predecir climas")
-        print("\n3.- Comparar resultados")
-        print("\n0.- SALIR")
-        o = eval(input("\nSeleccione una opción: "))
-    
-    if (o == 1):
-        procesarVariables()
-        print("Se creó el archivo climas.csv correctamente")
-    elif (o == 2):
-        predecirClima()
-    elif (o == 3):
-        compararResultados()
-    else:
-        ejecutar = False
 
 # Procesa todas las variables para crear el archivo CSV final
 # Entrada: No hay entrada
@@ -178,8 +154,10 @@ def compararResultados():
     print('El modelo naive acertó en', aciertos, 'predicciones, y falló en', fallos)
     return (aciertos, fallos)
 
-while (ejecutar): # Ciclo que se ejecuta para siempre, para que el menú esté disponible todo el tiempo
-    menu()
+procesarVariables()
+print("Se creó el archivo climas.csv correctamente")
+predecirClima()
+compararResultados()
 
 
 
