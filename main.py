@@ -9,6 +9,10 @@ dirPresion = 'presion_atmosferica.txt' # Nombre del archivo donde se guardan las
 dirViento = 'velocidad_viento.txt' # Nombre del archivo donde se guardan las velocidades del viento
 dirHumedad = 'humedad_relativa.txt' # Nombre del archivo donde se guardan las humedades relativas
 
+estaciones = ['Otoño', 'Invierno', 'Primavera', 'Verano']
+
+estacionInicial = 'Otoño'
+
 # DEFINICIÓN_DE_FUNCIONES
 
 # Procesa todas las variables para crear el archivo CSV final
@@ -26,10 +30,19 @@ def procesarVariables():
     listaPresion = archivoALista(archivoPresion)
     listaHumedad = archivoALista(archivoHumedad)
 
+    estacion = estacionInicial
+
     tabla = [] # Lista donde se guardaran las listas con los datos ordenados
 
     for i, dia in enumerate(listaTemperatura):
         numeroDia = listaTemperatura[i][0] # El número del día corresponde al primer elemento [0]
+        if (eval(numeroDia) % 31 == 0):
+            indexEstacionSiguiente = estaciones.index(estacion) + 1
+            if (indexEstacionSiguiente >= len(estaciones)):
+                indexEstacionSiguiente = 0
+            
+            estacion = estaciones[indexEstacionSiguiente]
+
         for j, elemento in enumerate(dia):
             if (j != 0):
                 if (j % 2 == 0): # Si es par
@@ -41,24 +54,21 @@ def procesarVariables():
                     presion = listaPresion[i][j]
                     humedad = listaHumedad[i][j]
 
-                    tabla.append([numeroDia, hora, temperatura, humedad, viento, presion, '', '']) # Se agregan una lista con los datos ordenados a otra lista
+                    tabla.append([numeroDia, hora, temperatura, humedad, viento, presion, estacion, '']) # Se agregan una lista con los datos ordenados a otra lista
     
     df = pd.DataFrame(tabla, columns=titulos) # Convierte la lista de listas en formato CSV
     df.to_csv('climas.csv') # Crea el nuevo archivo climas.csv
 
-# Predice el clima del último día registrado
+# Predice el clima de los días registrados en climas.csv
 # Entrada: No hay entrada
 # Salida: No hay salida
-def predecirClima():
+def simularClima():
+    df = pd.read_csv('climas.csv') # Carga el archivo climas.csv
     chancesLluvia = 0
     chancesSoleado = 0
     chancesNubosidad = 0
 
-    df = pd.read_csv('climas.csv') # Carga el archivo climas.csv
-
-    ultimoDia = df.tail(4) # Obtiene los últimos 4 registros, es decir, el último día
-
-    for index, registro in ultimoDia.iterrows():
+    for index, registro in df.iterrows():
         T = registro['Temperatura ambiente']
         H = registro['Humedad relativa']
         V = registro['Velocidad del viento']
@@ -105,16 +115,29 @@ def predecirClima():
             chancesNubosidad = chancesNubosidad + 2
         else:
             chancesSoleado = chancesSoleado + 3
-    
-    mayor = max([chancesLluvia, chancesSoleado, chancesNubosidad])
 
-    # PROBLEMA: ¿Qué pasa si dos o más chances son iguales?
-    if (mayor == chancesSoleado):
-        print('Soleado')
-    if (mayor == chancesNubosidad):
-        print('Nubosidad')
-    if (mayor == chancesLluvia):
-        print('Lluvia')
+        if ((index + 1) % 4 == 0):
+            mayor = max([chancesLluvia, chancesSoleado, chancesNubosidad])    
+            clima = ''
+
+            if (mayor == chancesSoleado):
+                clima = 'Soleado'
+            if (mayor == chancesNubosidad):
+                clima = 'Nubosidad'
+            if (mayor == chancesLluvia):
+                clima = 'Lluvia'
+            
+            if (index != 0):
+                df.loc[index - 3, 'Clima'] = clima
+                df.loc[index - 2, 'Clima'] = clima
+                df.loc[index - 1, 'Clima'] = clima
+                df.loc[index, 'Clima'] = clima
+
+            chancesLluvia = 0
+            chancesSoleado = 0
+            chancesNubosidad = 0
+    
+    df.to_csv('climas.csv')
     
 # Abre un archivo para devolver su contenido
 # Entrada: El nombre del archivo que se abrirá
@@ -156,8 +179,8 @@ def compararResultados():
 
 procesarVariables()
 print("Se creó el archivo climas.csv correctamente")
-predecirClima()
-compararResultados()
+simularClima()
+#compararResultados()
 
 
 
