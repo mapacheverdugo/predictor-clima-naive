@@ -63,7 +63,7 @@ def procesarVariables():
 # Entrada: No hay entrada
 # Salida: No hay salida
 def simularClima():
-    df = pd.read_csv('climas.csv') # Carga el archivo climas.csv
+    df = pd.read_csv('climas.csv', index_col=0) # Carga el archivo climas.csv
     chancesLluvia = 0
     chancesSoleado = 0
     chancesNubosidad = 0
