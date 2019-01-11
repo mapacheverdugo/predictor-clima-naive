@@ -5,6 +5,8 @@ dirPresion = 'presion_atmosferica.txt' # Nombre del archivo donde se guardan las
 dirViento = 'velocidad_viento.txt' # Nombre del archivo donde se guardan las velocidades del viento
 dirHumedad = 'humedad_relativa.txt' # Nombre del archivo donde se guardan las humedades relativas
 
+climas = ['Soleado', 'Nubosidad', 'Lluvia']
+
 def crearArchivos(dias):
     dia = 1
     temperatura = open(dirTemperatura, 'w')
@@ -48,6 +50,12 @@ def generarDia(dia, inicial, radio, divisor, digitos):
     return linea + '\n'
 
 def generarReales():
-    
+    reales = open('reales.csv', 'w')
+    reales.write(',Clima\n')
+    for i in range(120):
+        aleatorio = random.randrange(0, 3)
+        linea = str(i) + ',' + climas[aleatorio] + '\n'
+        reales.write(linea)
+    reales.close()
 
-crearArchivos(120)
+generarReales()

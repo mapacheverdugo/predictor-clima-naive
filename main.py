@@ -116,7 +116,25 @@ def simularClima():
         else:
             chancesSoleado = chancesSoleado + 3
 
-        if ((index + 1) % 4 == 0):
+        if ((index - 8) >= 0): # Se descartan los dos primeros días
+            climaAnteayer = df.loc[(index - 8), 'Clima']
+            climaAyer = df.loc[(index - 4), 'Clima']
+
+            if (climaAnteayer == 'Soleado'):
+                chancesSoleado = chancesSoleado + 1
+            elif (climaAnteayer == 'Nubosidad'):
+                chancesNubosidad = chancesNubosidad + 1
+            else:
+                chancesLluvia = chancesLluvia + 1
+            
+            if (climaAyer == 'Soleado'):
+                chancesSoleado = chancesSoleado + 1
+            elif (climaAyer == 'Nubosidad'):
+                chancesNubosidad = chancesNubosidad + 1
+            else:
+                chancesLluvia = chancesLluvia + 1
+
+        if ((index + 1) % 4 == 0): # Cada cuatro registro se cambia un día
             mayor = max([chancesLluvia, chancesSoleado, chancesNubosidad])    
             clima = ''
 
@@ -180,7 +198,8 @@ def compararResultados():
 procesarVariables()
 print("Se creó el archivo climas.csv correctamente")
 simularClima()
-#compararResultados()
+print("Se simuló correctamente el clima de 120 días")
+compararResultados()
 
 
 
