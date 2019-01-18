@@ -172,7 +172,7 @@ def abrirArchivo(nombre):
 def archivoALista(contenido):
     dias = []
     for linea in contenido:
-        lineaSinSalto = linea.strip()
+        lineaSinSalto = linea.strip() 
         elementos = lineaSinSalto.split(',') # Separa la línea donde encuentre una coma
         dias.append(elementos) # Agrega la lista de elementos a la lista de días
     return dias
@@ -181,14 +181,15 @@ def archivoALista(contenido):
 # Entrada: No hay entrada
 # Salida: Retorna el número de aciertos y el número de fallos
 def compararResultados():
-    dfReales = pd.read_csv('reales.csv') # Carga el archivo reales.csv
-    dfClimas = pd.read_csv('climas.csv') # Carga el archivo climas.csv
+    dfReales = pd.read_csv('reales.csv', index_col=0) # Carga el archivo reales.csv
+    dfClimas = pd.read_csv('climas.csv', index_col=0) # Carga el archivo climas.csv
     aciertos = 0
     totales = len(dfReales.index) # Obtiene la cantidad de registros en reales.csv
     
     for i, registro in dfReales.iterrows():
         climaReal = registro['Clima'] # Obtiene el clima real
         climaSimulado = dfClimas.loc[(i * 4), 'Clima'] # Obtiene el clima simulado a partir del índice
+        print(climaSimulado)
         if (climaReal == climaSimulado):
             aciertos = aciertos + 1
     fallos = totales - aciertos
